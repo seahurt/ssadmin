@@ -25,7 +25,7 @@ SECRET_KEY = 'hmpywx3rkhi%9&ieyc#2*7bx272lwtqt7bof#25w+(l)l#ej^d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['seahurt.xyz','0.0.0.0','localhost','127.0.0.1','103.74.193.18']
+ALLOWED_HOSTS = ['0.0.0.0','localhost','127.0.0.1']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ssdaemon',
+    'ssreborn',
 ]
 
 MIDDLEWARE = [
