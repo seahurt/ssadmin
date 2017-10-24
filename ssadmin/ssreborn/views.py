@@ -4,6 +4,7 @@ from .ssforms import SSForm
 from django.http import HttpResponse
 import json
 import os
+import random
 # Create your views here.
 
 def ssreborn(request):
@@ -36,16 +37,17 @@ def rebuild(record):
 	config['server_port']=record.port
 	config['server']='0.0.0.0'
 	config['password']=record.passwd 
-	config['timeout']=300,
 	config['method']=record.encode
 	ss_config = "/root/ss/ss.json"
 	f = open(ss_config,'w')
 	json.dump(config,f,indent=4)
+	f.write('\n')
+	f.close() 
 	os.system('ssserver -d stop')
 	status = os.system('ssserver -c /root/ss/ss.json -d start')
-	if status == '0':
+	if status == 0:
 		return True
 	else:
 		print ("Non-zero exit code when start ss server")
-		retrun False
+		return False
 
