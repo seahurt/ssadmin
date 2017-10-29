@@ -5,3 +5,4 @@ version:0.01
 python3.5
 django1.11
  
+TODO: add regist module

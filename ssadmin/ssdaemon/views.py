@@ -1,10 +1,11 @@
 from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 import subprocess
 import os
 # from . import smtpp
 # Create your views here.
-
+@login_required
 def ssdaemon(request,cmd):
     info=[]
     if cmd == "start":
@@ -47,6 +48,8 @@ def is_run():
         return True
     else:
         return False
+
+@login_required
 def ssclick(request):
     if request.method == 'POST':
         action = request.POST['action']
