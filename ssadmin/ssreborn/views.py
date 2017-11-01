@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
 from .models import *
 from .ssforms import SSForm 
 from django.http import HttpResponse
@@ -7,6 +8,7 @@ import os
 import random
 # Create your views here.
 
+@login_required
 def ssreborn(request):
     if request.method == 'POST':
         form = SSForm(request.POST)
@@ -63,4 +65,4 @@ def firewall(port):
     os.system(activate_newport)
     os.system("iptables-restore < /etc/iptables.test.rules")
     os.system("iptables-save >/etc/iptables.up.rules")
-    
+
