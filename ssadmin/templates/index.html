@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="pt-3">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Server IP</th>
+                <th>Server Port</th>
+                <th>Method</th>
+                <th>Password</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th>QRCODE</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ ssrecord.server }}</td>
+                <td>{{ ssrecord.port }}</td>
+                <td>{{ ssrecord.method }}</td>
+                <td>{{ ssrecord.password }}</td>
+                <td>{{ ssrecord.status }}</td>
+                <td>
+                    <div>
+                        <button class="btn btn-primary btn-sm" onclick="submit('start')">Start</button>
+                        <button class="btn btn-secondary btn-sm" onclick="submit('stop')" >Stop</button>
+                        <button class="btn btn-success btn-sm" onclick="submit('restart')">Restart</button>
+                    </div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#qrModal">Show</button>
+
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <form action="/" method="post" id="action-form">
+            {% csrf_token %}
+            <input name="record" value="{{ ssrecord.id }}" hidden>
+            <input name="action" value="" hidden id="action-input">
+        </form>
+        <div class="modal fade" tabindex="-1" role="dialog" id="qrModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">QRCode</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-center">
+                            <div id="qrcode"></div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function submit(action) {
+                let form = document.getElementById('action-form');
+                let input = document.getElementById('action-input');
+                input.value = action;
+                form.submit();
+            }
+        </script>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), "{{ ssrecord.link }}");
+        </script>
+    </div>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+ <div id="navbar">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="/home">Home</a>
+{#                    <a class="nav-item nav-link" href="/random">Random</a>#}
+                    <a class="nav-item nav-link active" href="/rebuild">Rebuild</a>
+{#                    <a class="nav-item nav-link" href="/history">History</a>#}
+                </div>
+            </div>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+
+<div style="width: 500px; border: 2px solid gray;" class="p-5 mt-4">
+    <form action="/rebuild" method="post">
+        {% csrf_token %}
+        <input hidden name="record" value="{{ ssrecord.id }}">
+        <div class="form-group row">
+            <label class="col-md-4 col-form-label">Server Address</label>
+            <div class="col-md-8">
+                <input class="form-control" name="server" value="{{ ssrecord.server }}" type="text">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 col-form-label">Server Port</label>
+            <div class="col-md-8">
+                <input id="ssport" class="form-control" name="port" value="{{ ssrecord.port }}" type="number">
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 col-form-label">Password</label>
+            <div class="col-md-8">
+                <input id="sspassword" class="form-control" name="password" value="{{ ssrecord.password }}" type="text">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-4 col-form-label">Method</label>
+            <div class="col-md-8">
+                <select class="form-control" name="method" type="text" id="method-selection">
+                </select>
+            </div>
+        </div>
+        <div>
+             <button class="btn btn-primary" type="button" onclick="randomize()">Random</button>
+             <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+
+    </form>
+</div>
+<script>
+    var methods = ['aes-128-cfb', 'aes-128-ofb', 'aes-192-cfb', 'aes-192-ofb', 'aes-256-cfb', 'aes-256-ofb',
+        'cast5-cfb', 'cast5-ofb', 'chacha20', 'rc4-md5'];
+    var select = document.getElementById('method-selection');
+    methods.forEach(x=>{
+        let dom = document.createElement("option");
+        dom.value = x;
+        dom.label = x;
+        dom.innerText = x;
+        if (x == "{{ ssrecord.method }}"){
+            dom.selected = "selected"
+        }
+        select.appendChild(dom);
+    })
+</script>
+<script>
+    function randomize() {
+        // method random
+        let mindex = Math.floor(Math.random() * methods.length);
+        console.log(mindex);
+        select.value = methods[mindex];
+
+        // port random
+        let port = Math.floor(Math.random() * 64000) + 1000;
+        console.log(port);
+        document.getElementById('ssport').value = port;
+
+        // password random
+        let str = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let sarray = [];
+        for(let i=0;i<10;i++){
+            let index = Math.floor(Math.random() * 62);
+            sarray.push(str[index]);
+        }
+        let passwd = sarray.join('');
+        console.log(passwd);
+        document.getElementById('sspassword').value = sarray.join('');
+
+    }
+</script>
+</div>
+{% endblock %}
