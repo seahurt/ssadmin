@@ -1,0 +1,5 @@
+db.sqlite3
+ss.log
+ss.pid
+.idea/
+static_files
