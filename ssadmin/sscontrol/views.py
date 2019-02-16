@@ -33,7 +33,7 @@ def home(request):
             ssrecord.stop()
         elif action == 'restart':
             ssrecord.restart()
-        return render(request, 'index.html', context={'ssrecord': ssrecord})
+        return redirect('/')
 
 
 @login_required()

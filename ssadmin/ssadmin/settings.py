@@ -118,8 +118,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_files')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 ACTIONS = (
     ('start', 'start'),
     ('stop', 'stop'),
@@ -128,3 +130,4 @@ ACTIONS = (
 )
 
 SSPIDFILE = os.path.join(BASE_DIR, 'ss.pid')
+SSLOGFILE = os.path.join(BASE_DIR, 'ss.log')

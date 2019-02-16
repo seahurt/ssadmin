@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 import os
 import signal
+import base64
 # Create your models here.
 
 # SS crypto method
@@ -33,7 +34,8 @@ class SSrecord(models.Model):
         cmd = f'ssserver -s {self.server} -p {self.port} -k {self.password} -m {self.method} -t {self.timeout} --workers {self.workers} '
         if self.fast_open:
             cmd = cmd + '--fast-open'
-        cmd += f'--pid-file {settings.SSPIDFILE}'
+        cmd += f' --pid-file {settings.SSPIDFILE}'
+        cmd += f' --log-file {settings.SSLOGFILE}'
         return cmd
 
     @property
@@ -48,6 +50,7 @@ class SSrecord(models.Model):
 
     def start(self):
         self.stop()
+        print(self.cmds + ' -d start')
         os.system(self.cmds + ' -d start')
 
     def stop(self):
@@ -72,6 +75,11 @@ class SSrecord(models.Model):
             return 'running'
         else:
             return 'stopped'
+
+    @property
+    def link(self):
+        src = f'{self.method}:{self.password}@{self.server}:{self.port}'
+        return 'ss://' + base64.b64encode(src.encode('utf-8')).decode('utf-8')
 
 
 class SystemRecord(models.Model):
