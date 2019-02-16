@@ -1,0 +1,15 @@
+<html>
+<head>
+<title> ss daemon admin </title>
+</head>
+<body>
+<H1> The server is {{status}}</H1>
+<form action="{% url 'ssdaemon:ssclick' %}" method="post">
+{% csrf_token %}
+    <div><button type="submit" name="action" value="start">Start</button></div>
+    <div><button type="submit" name="action"  value="restart">Restart</button></div>
+    <div><button type="submit" name="action" value="stop" >Stop</button></div>
+</form>
+</body>
+</html>
+

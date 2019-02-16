@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="pt-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Server IP</th>
+                <th>Server Port</th>
+                <th>Method</th>
+                <th>Password</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ ssrecord.server }}</td>
+                <td>{{ ssrecord.port }}</td>
+                <td>{{ ssrecord.method }}</td>
+                <td>{{ ssrecord.password }}</td>
+                <td>
+                    <div>
+                        <button class="button" onclick="submit('start')">Start</button>
+                        <button class="button" onclick="submit('stop')" >Stop</button>
+                        <button class="button" onclick="submit('restart')">Restart</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="/" method="post" id="action-form">
+        {% csrf_token %}
+        <input name="record" value="{{ ssrecord.id }}" hidden>
+        <input name="action" value="" hidden id="action-input">
+    </form>
+<script>
+    function submit(action) {
+        let form = document.getElementById('action-form');
+        let input = document.getElementById('action-input');
+        input.value = action;
+        form.submit();
+    }
+</script>
+</div>
+{% endblock %}
