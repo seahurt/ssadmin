@@ -3,3 +3,5 @@ ss.log
 ss.pid
 .idea/
 static_files
+__pycache__/
+*.pyc
