@@ -57,13 +57,16 @@ def random(request):
 @login_required()
 def rebuild(request):
     if request.method == 'GET':
-        return render(request, 'rebuild.html')
+        ssrecord = SSrecord.objects.order_by('-id').first()
+        return render(request, 'rebuild.html', context={'ssrecord': ssrecord})
     elif request.method == 'POST':
         ssid = request.POST.get('record', SSrecord.objects.order_by('-id').first().id)
         port = request.POST.get('port')
         method = request.POST.get('method')
         password = request.POST.get('password')
+        server = request.POST.get('server')
         ssrecord = SSrecord.objects.get(id=ssid)
+        ssrecord.server = server
         ssrecord.port = port
         ssrecord.method = method
         ssrecord.password = password
