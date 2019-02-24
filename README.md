@@ -1,4 +1,4 @@
-## django-ss-autorebuild
+## ssadmin
 Simple Shadowsocks Web Manager
 
 version: 0.1.0
