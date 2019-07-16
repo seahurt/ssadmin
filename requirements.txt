@@ -1,4 +1,4 @@
 certifi==2018.11.29
-Django==1.11
+Django==1.11.22
 pytz==2018.9
 shadowsocks==2.8.2
